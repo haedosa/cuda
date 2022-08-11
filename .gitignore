@@ -5,3 +5,5 @@ dist/
 /stack.yaml
 /.stack-work
 /stack.yaml.lock
+.direnv
+result
