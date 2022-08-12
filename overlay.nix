@@ -1,6 +1,6 @@
 final: prev: with final; {
 
-  haskellPackages = prev.haskell.packages.ghc922.override (old: {
+  haskellPackages = prev.haskell.packages.ghc902.override (old: {
     overrides = lib.composeManyExtensions [
                   (old.overrides or (_: _: {}))
                   (hfinal: hprev: with haskell.lib; rec {
