@@ -11,20 +11,18 @@
     out = "$out/bin/ghcid";
   in runCommand "ghcid" { buildInputs = [ makeWrapper ]; } ''
     makeWrapper ${ghcid} ${out} --add-flags \
-      "--command='cd packages/base && \
-                    cabal repl lib:cuda \
-                    --flags=openblas \
-                    --extra-lib-dirs=${openblasCompat}/lib \
-                    --extra-include-dir=${openblasCompat}/include \
-                 '"
+      "--command='cabal repl lib:cuda'"
   '';
 
-in mkShell {
-  buildInputs =  haskellPackages.cuda.env.nativeBuildInputs ++
-                 [ ghcCharged
-                   ghcid-bin-with-openblas
-                   cabal-install
-                   openblasCompat
-                   cudatoolkit
-                 ];
-}
+in
+  haskellPackages.cuda.env.overrideAttrs (old: {
+    nativeBuildInputs =  old.nativeBuildInputs ++
+                  [ ghcCharged
+                    ghcid-bin-with-openblas
+                    cabal-install
+                    openblasCompat
+                    cudatoolkit
+                  ];
+
+  })
+# }

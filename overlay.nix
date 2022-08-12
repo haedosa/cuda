@@ -1,6 +1,6 @@
 final: prev: with final; {
 
-  haskellPackages = prev.haskell.packages.ghc902.override (old: {
+  haskellPackages = prev.haskell.packages.ghc922.override (old: {
     overrides = lib.composeManyExtensions [
                   (old.overrides or (_: _: {}))
                   (hfinal: hprev: with haskell.lib; rec {
@@ -16,7 +16,7 @@ final: prev: with final; {
                           ];
                           preConfigure = ''
                             export CUDA_PATH=${pkgs.cudatoolkit}
-                        #   '';
+                          '';
                         });
                   })
                 ];

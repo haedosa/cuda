@@ -1,4 +1,6 @@
 {-# LANGUAGE MagicHash #-}
+{-# LANGUAGE TypeApplications #-}
+
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 --  C->Haskell Compiler: Marshalling library
 --
@@ -200,11 +202,11 @@ cIntConv  = fromIntegral
 -- fromIntegral entirely (in particular, without relying on orphan instances).
 --
 {-# RULES
-  "fromIntegral/Int->CInt"     fromIntegral = \(I# i#) -> CInt (I32# (narrow32Int# i#)) ;
+  "fromIntegral/Int->CInt"     fromIntegral = toEnum @CInt;
   "fromIntegral/Int->CLLong"   fromIntegral = \(I# i#) -> CLLong (I64# i#) ;
  #-}
 {-# RULES
-  "fromIntegral/Int->CUInt"    fromIntegral = \(I# i#) -> CUInt (W32# (narrow32Word# (int2Word# i#))) ;
+  "fromIntegral/Int->CUInt"    fromIntegral = toEnum @CUInt;
   "fromIntegral/Int->CULLong"  fromIntegral = \(I# i#) -> CULLong (W64# (int2Word# i#)) ;
  #-}
 
@@ -254,4 +256,3 @@ cToEnum  = toEnum . cIntConv
 {-# INLINE [1] cFromEnum #-}
 cFromEnum :: (Enum e, Integral i) => e -> i
 cFromEnum  = cIntConv . fromEnum
-
